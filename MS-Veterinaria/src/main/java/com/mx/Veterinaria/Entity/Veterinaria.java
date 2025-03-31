@@ -11,7 +11,7 @@ import lombok.Data;
 @Entity
 @Table(name = "VETERINARIA")
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 public class Veterinaria {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
