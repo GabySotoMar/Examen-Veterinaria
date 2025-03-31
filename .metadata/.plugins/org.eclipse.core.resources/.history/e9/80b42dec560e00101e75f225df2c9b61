@@ -1,0 +1,29 @@
+package com.mx.APIGatwey.Config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+@Configuration
+@EnableWebMvc
+
+public class CorsConfig{
+
+    @Bean
+    UrlBasedCorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfig = new CorsConfiguration();
+        corsConfig.addAllowedOrigin("http://localhost:4200"); // Permitir solicitudes desde el frontend
+        corsConfig.addAllowedMethod(HttpMethod.GET);   // Permitir GET
+        corsConfig.addAllowedMethod(HttpMethod.POST);  // Permitir POST
+        corsConfig.addAllowedMethod(HttpMethod.PUT);   // Permitir PUT
+        corsConfig.addAllowedMethod(HttpMethod.DELETE); // Permitir DELETE
+        corsConfig.addAllowedHeader("*");  // Permitir todas las cabeceras
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", corsConfig);  // Aplica la configuración a todas las rutas
+        return source;
+    }
+}

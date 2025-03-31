@@ -13,8 +13,8 @@ public class SecurityConfig {
 	@Bean
 	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		http
+		
 		.csrf(csrf -> csrf.disable())
-		.cors(cors -> cors.disable())
 		.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(HttpMethod.GET).authenticated()
 						.requestMatchers(HttpMethod.POST).permitAll()
@@ -22,7 +22,9 @@ public class SecurityConfig {
 						.requestMatchers(HttpMethod.PUT).permitAll()
 					.anyRequest().authenticated())
 			.formLogin().and()
-			.httpBasic();
+			.httpBasic()
+			.and()
+			.cors();
 		return http.build();
 	}
 }
