@@ -1,0 +1,52 @@
+#CONFIGURACION PARA EL SERVICIO APIGATEWAY
+server.port=8000
+spring.application.name=API-Gatewey
+
+#CONFIGURACION DE EUREKA-CLIENT
+
+eureka.instance.hostname=localhost
+eureka.client.service-url.defaultZone=http://localhost:9000/eureka
+
+#SEGURIDAD CON SPRING SECURITY
+#USUARIO
+#spring.security.user.name=GABY
+#CONTRASENIA
+#spring.security.user.password=1234
+#ROLES
+#spring.security.user.roles=ADMIN
+
+
+#CONFIGURACION DE LOS MICROSERVICIOS QUE CONTROLORA APIGatewy
+#Microservicios CLIENTES
+spring.cloud.gateway.mvc.routes[0].id=CLIENTESV
+spring.cloud.gateway.mvc.routes[0].uri=http://localhost:8042
+spring.cloud.gateway.mvc.routes[0].predicates[0]=Path=/Clientes/**
+
+#Microservicios MASCOTAS
+# http://Localhost:8010/Productos
+spring.cloud.gateway.mvc.routes[1].id=MASCOTAS
+spring.cloud.gateway.mvc.routes[1].uri=http://localhost:8041
+spring.cloud.gateway.mvc.routes[1].predicates[0]=Path=/Mascotas/**
+
+#Microservicios RESPONSABLES
+# http://Localhost:8011/Proveedores
+spring.cloud.gateway.mvc.routes[2].id=RESPONSABLES
+spring.cloud.gateway.mvc.routes[2].uri=http://localhost:8040
+spring.cloud.gateway.mvc.routes[2].predicates[0]=Path=/Responsables/**
+
+#Microservicios VETERINARIA
+# http://Localhost:8014/Tienda
+spring.cloud.gateway.mvc.routes[3].id=VETERINARIA
+spring.cloud.gateway.mvc.routes[3].uri=http://localhost:8043
+spring.cloud.gateway.mvc.routes[3].predicates[0]=Path=/Veterinaria/**
+
+#Ajustar el 
+eureka.instance.lease-renewal-interval-in-seconds=10
+eureka.instance.lease-expiration-duration-in-seconds=30
+
+
+
+
+
+
+

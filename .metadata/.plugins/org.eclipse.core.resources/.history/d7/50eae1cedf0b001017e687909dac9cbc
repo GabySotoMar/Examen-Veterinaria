@@ -1,0 +1,23 @@
+package com.mx.APIGatwey.Config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig {
+
+	//METODO PARA AGREGAR SEGURIDAD BASICA PARA TODAS LAS PETICIONES "BasicAuth"
+		HttpBasicConfigurer<HttpSecurity> httpBasicConfigurer(HttpSecurity http) throws Exception{
+			return http.csrf(csrf -> csrf.disable())
+					.authorizeHttpRequests()
+					.anyRequest().authenticated()
+					.and()
+					.formLogin()
+					.and()
+					.httpBasic();
+	}
+
+}

@@ -1,0 +1,88 @@
+package com.mx.Veterinaria.Controller;
+
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.mx.Veterinaria.Entity.Veterinaria;
+import com.mx.Veterinaria.Service.VeterinariaServiceImpl;
+
+@RestController
+@RequestMapping("/Veterinaria")
+//@CrossOrigin("*")
+public class VeterinariaWS {
+
+	@Autowired
+	private VeterinariaServiceImpl service;
+
+	// http://localhost:8043/Veterinaria
+	// L I S T A R
+	@GetMapping
+	public ResponseEntity<?> listarVeterinarias() {
+		List<Veterinaria> veterinaria = service.listar();
+		if (veterinaria.isEmpty()) {
+			return ResponseEntity.noContent().build();
+		} else {
+			return ResponseEntity.ok(veterinaria);
+		}
+	}
+
+	// B U S C A R
+	@PostMapping("/{idVeterinaria}")
+	public ResponseEntity<?> obtenerVeterinaria(@PathVariable int idVeterinaria) {
+		Veterinaria veterinaria = service.buscar(idVeterinaria);
+		if (veterinaria != null) {
+			return ResponseEntity.ok(veterinaria);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	// G U A R D A R
+	@PostMapping
+	public ResponseEntity<?> guardarveterinaria(@RequestBody Veterinaria veterinaria) {
+		return ResponseEntity.ok(service.guardar(veterinaria));
+	}
+
+	// E D I T A R
+	@PutMapping
+	public ResponseEntity<?> actualizarVeterinaria(@RequestBody Veterinaria veterinaria) {
+		Veterinaria veterinariaBD = service.buscar(veterinaria.getIdVeterinaria());
+		if (veterinariaBD != null) {
+			return ResponseEntity.ok(service.editar(veterinaria));
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+	}
+
+	// E L I M I N A R
+	@DeleteMapping("/{idVeterinaria}")
+	public ResponseEntity<?> eliminarVeterinaria(@PathVariable int idVeterinaria) {
+		Veterinaria veterinaria = service.buscar(idVeterinaria);
+		if (veterinaria != null) {
+			service.eliminar(idVeterinaria);
+			return ResponseEntity.ok(veterinaria);
+		} else {
+			return ResponseEntity.ok(veterinaria);
+		}
+	}
+	
+	//-- R E L A C I O N - T O D O S - L O S - M O D U L O S -------------
+	// http://localhost:8043/Tienda/Todo/
+	@GetMapping("/responsablesveterinaria/{veterinariaId}")
+	public ResponseEntity<?> obtenerTodoslosModulos(@PathVariable int veterinariaId){
+		Map<String, Object> modulos= service.obtenerResponsablesdeVeterinaria(veterinariaId);
+		return ResponseEntity.status(HttpStatus.OK).body(modulos);
+	}
+}

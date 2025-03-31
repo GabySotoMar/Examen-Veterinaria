@@ -1,0 +1,30 @@
+package com.mx.Veterinaria.Controller;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+
+import com.mx.Veterinaria.Entity.Veterinaria;
+import com.mx.Veterinaria.Service.VeterinariaServiceImpl;
+
+public class VeterinariaWSTest {
+	@InjectMocks  //Injectar los mocks para la clase que se esta probando
+	private VeterinariaWS veterinariaWS;
+	
+	@Mock
+	private VeterinariaServiceImpl service;
+	
+	private Veterinaria veterinaria1;
+	private Veterinaria veterinaria2;
+	
+	@BeforeEach //indica que este metodo se ejecuttara antes de cada prueba
+	void setup() {
+		MockitoAnnotations.openMocks(this);
+		veterinaria1 = new Veterinaria(1, "HUELLAS", "CALLE OAXACA", (long)23242525);
+		veterinaria2 = new Veterinaria(2, "CATS", "CALLE OAXACA", (long)23242525);
+	}
+	
+	
+
+}

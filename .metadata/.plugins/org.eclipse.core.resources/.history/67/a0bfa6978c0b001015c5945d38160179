@@ -1,0 +1,5 @@
+package com.mx.APIGatwey.Config;
+
+public class SecurityConfig {
+
+}

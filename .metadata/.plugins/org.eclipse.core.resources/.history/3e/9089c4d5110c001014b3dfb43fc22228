@@ -1,0 +1,60 @@
+package com.mx.Veterinaria.Controller;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import java.util.Arrays;
+import java.util.List;
+
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import com.mx.Veterinaria.Entity.Veterinaria;
+import com.mx.Veterinaria.Service.VeterinariaServiceImpl;
+
+public class VeterinariaWSTest {
+	@InjectMocks  //Injectar los mocks para la clase que se esta probando
+	private VeterinariaWS veterinariaWS;
+	
+	@Mock
+	private VeterinariaServiceImpl service;
+	
+	private Veterinaria veterinaria1;
+	private Veterinaria veterinaria2;
+	
+	@BeforeEach //indica que este metodo se ejecuttara antes de cada prueba
+	void setup() {
+		MockitoAnnotations.openMocks(this);
+		veterinaria1 = new Veterinaria(1, "HUELLAS", "CALLE OAXACA", (long)23242525);
+		veterinaria2 = new Veterinaria(2, "CATS", "CALLE OAXACA", (long)23242525);
+	}
+	
+	@Test
+	void testListar() {
+		List<Veterinaria> veterinaria = Arrays.asList(veterinaria1, veterinaria2);
+		when(service.listar()).thenReturn(veterinaria);
+		
+		ResponseEntity<?> response= veterinariaWS.listarVeterinarias();
+		
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(veterinaria, response.getBody());
+	}
+	
+	@Test
+	void testGuardar() {
+		
+		when(service.guardar(any(Veterinaria.class))).thenReturn(veterinaria1);
+		ResponseEntity<?> response= veterinariaWS.guardarveterinaria(veterinaria1);
+		
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(veterinaria1, response.getBody());
+	}
+
+}
